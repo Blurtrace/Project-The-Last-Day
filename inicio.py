@@ -43,11 +43,11 @@ def select_dificulty():
                 f"Food: {food}\n"
                 f"Water: {water}\n"
                 f"Energy: {energy}\n"
-                f"Population: {population}"
-                f"Bad Porcentage: {bad_porcentage}"
+                f"Population: {population}\n"
+                f"Bad Porcentage: {bad_porcentage}\n"
             )
 
-            select = True
+            return health, food, water, energy, population, bad_porcentage
 
         # Medium mode configuration
         elif difficult_level == "2":
@@ -62,8 +62,8 @@ def select_dificulty():
                 f"Food: {food}\n"
                 f"Water: {water}\n"
                 f"Energy: {energy}\n"
-                f"Population: {population}"
-                f"Bad Porcentage: {bad_porcentage}"
+                f"Population: {population}\n"
+                f"Bad Porcentage: {bad_porcentage}\n"
             )
 
             select = True
@@ -81,14 +81,15 @@ def select_dificulty():
                 f"Food: {food}\n"
                 f"Water: {water}\n"
                 f"Energy: {energy}\n"
-                f"Population: {population}"
-                f"Bad Porcentage: {bad_porcentage}"
+                f"Population: {population}\n"
+                f"Bad Porcentage: {bad_porcentage}\n"
             )
 
-            select = True
+            return health, food, water, energy, population, bad_porcentage
 
         # Invalid option handling
         else:
             print("Please, select an available option.")
-        return difficult_level
-select_dificulty()
+        return health, food, water, energy, population, bad_porcentage
+    
+health, food, water, energy, population, bad_porcentage = select_dificulty()
