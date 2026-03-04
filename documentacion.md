@@ -1,0 +1,6 @@
+On line 1, username is a variable that uses an input so the user can enter their username. Then, I create a print statement that will welcome the user.
+On line 4, I create a variable called option, where I will store a string (str) variable that is initially empty in order to use it in the while loop.
+Then, I create a while loop. This loop works so that when the user enters a character different from the game levels (that is not 1, 2, or 3), a message appears saying, “Invalid option, please try again,” and the option to select the game difficulty level is shown again.
+If the user enters a valid game level number (1, 2, or 3), the condition while option not in stops displaying the “invalid option, please try again” message and stops repeating the difficulty selection prompt.
+After that, on lines 9, 19, and 28, I add conditionals such as if, elif, and else. These are used so that if the user selects an option, the resources and the population are displayed.
+Finally, the print statements on lines 40, 41, 42, 43, 44, and 45 are used so that when the user selects the difficulty level, the program shows the resources and the population
