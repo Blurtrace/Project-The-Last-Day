@@ -17,71 +17,78 @@ user_name = input("Welcome! Please enter your UserName: ").capitalize()
 while user_name == "":
     user_name = input("You did not enter a UserName, please enter your UserName: ").capitalize()
 
-# Boolean flag to control difficulty selection loop
-select = False
-
 # Loop until the user selects a valid difficulty option
-while select != True:
+def select_dificulty():
+    select = False # Boolean flag to control difficulty selection loop
+    while select != True:
 
-    # Ask the player to choose a difficulty level
-    difficult_level = input(
-        f"Hi, {user_name}, select the difficulty level:\n"
-        "1. Easy\n"
-        "2. Medium\n"
-        "3. Difficult\n"
-    )
-
-    # Easy mode configuration
-    if difficult_level == "1":
-        health = food = water = energy = 100
-        population = 10
-
-        print(
-            f"You selected Easy mode\n"
-            f"Available resources:\n"
-            f"Health: {health}\n"
-            f"Food: {food}\n"
-            f"Water: {water}\n"
-            f"Energy: {energy}\n"
-            f"Population: {population}"
+        # Ask the player to choose a difficulty level
+        difficult_level = input(
+            f"Hi, {user_name}, select the difficulty level:\n"
+            "1. Easy\n"
+            "2. Medium\n"
+            "3. Difficult\n"
         )
 
-        select = True
+        # Easy mode configuration
+        if difficult_level == "1":
+            health = food = water = energy = 100
+            population = 10
+            bad_porcentage = 20
 
-    # Medium mode configuration
-    elif difficult_level == "2":
-        health = food = water = energy = 50
-        population = 20
+            print(
+                f"You selected Easy mode\n"
+                f"Available resources:\n"
+                f"Health: {health}\n"
+                f"Food: {food}\n"
+                f"Water: {water}\n"
+                f"Energy: {energy}\n"
+                f"Population: {population}"
+                f"Bad Porcentage: {bad_porcentage}"
+            )
 
-        print(
-            f"You selected Medium mode\n"
-            f"Available resources:\n"
-            f"Health: {health}\n"
-            f"Food: {food}\n"
-            f"Water: {water}\n"
-            f"Energy: {energy}\n"
-            f"Population: {population}"
-        )
+            select = True
 
-        select = True
+        # Medium mode configuration
+        elif difficult_level == "2":
+            health = food = water = energy = 50
+            population = 20
+            bad_porcentage = 40
 
-    # Difficult mode configuration
-    elif difficult_level == "3":
-        health = food = water = energy = 20
-        population = 30
+            print(
+                f"You selected Medium mode\n"
+                f"Available resources:\n"
+                f"Health: {health}\n"
+                f"Food: {food}\n"
+                f"Water: {water}\n"
+                f"Energy: {energy}\n"
+                f"Population: {population}"
+                f"Bad Porcentage: {bad_porcentage}"
+            )
 
-        print(
-            f"You selected Difficult mode\n"
-            f"Available resources:\n"
-            f"Health: {health}\n"
-            f"Food: {food}\n"
-            f"Water: {water}\n"
-            f"Energy: {energy}\n"
-            f"Population: {population}"
-        )
+            select = True
 
-        select = True
+        # Difficult mode configuration
+        elif difficult_level == "3":
+            health = food = water = energy = 20
+            population = 30
+            bad_porcentage = 60
 
-    # Invalid option handling
-    else:
-        print("Please, select an available option.")
+            print(
+                f"You selected Difficult mode\n"
+                f"Available resources:\n"
+                f"Health: {health}\n"
+                f"Food: {food}\n"
+                f"Water: {water}\n"
+                f"Energy: {energy}\n"
+                f"Population: {population}"
+                f"Bad Porcentage: {bad_porcentage}"
+            )
+
+            select = True
+
+        # Invalid option handling
+        else:
+            print("Please, select an available option.")
+        return
+select_dificulty()
