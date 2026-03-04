@@ -90,5 +90,5 @@ def select_dificulty():
         # Invalid option handling
         else:
             print("Please, select an available option.")
-        return
+        return difficult_level
 select_dificulty()
