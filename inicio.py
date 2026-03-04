@@ -52,7 +52,7 @@ def select_dificulty():
         # Medium mode configuration
         elif difficult_level == "2":
             health = food = water = energy = 50
-            population = 20
+            population = 5
             bad_porcentage = 40
 
             print(
@@ -71,7 +71,7 @@ def select_dificulty():
         # Difficult mode configuration
         elif difficult_level == "3":
             health = food = water = energy = 20
-            population = 30
+            population = 3
             bad_porcentage = 60
 
             print(
