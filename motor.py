@@ -1,3 +1,5 @@
+import feachure/inicio
+import Eventos
 #Motor principal
 
 while day <= 10 and health > 0:
@@ -29,4 +31,5 @@ if day == 11 and health and water and food and energy and population > 0:
 elif day <= 11 or health or water or food or energy or population
     print("===================================================")
     print("                     GAME OVER                     ")
+
     print("===================================================")
