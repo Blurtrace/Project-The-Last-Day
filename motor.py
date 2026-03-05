@@ -1,4 +1,4 @@
-import feachure/inicio
+import feacture/inicio
 import Eventos
 #Motor principal
 
@@ -33,3 +33,4 @@ elif day <= 11 or health or water or food or energy or population
     print("                     GAME OVER                     ")
 
     print("===================================================")
+
