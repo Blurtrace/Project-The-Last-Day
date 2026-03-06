@@ -70,9 +70,9 @@ else:
     exit()
 
 # ---------------- BASE CONSUMPTION ----------------
-food_consumption = 1
-water_consumption = 1
-energy_consumption = 1
+food_consumption = 0.8
+water_consumption = 0.8
+energy_consumption = 0.8
 
 day = 1
 days = ["monday","tuesday","wednesday","thursday","friday","saturday","sunday"]
@@ -86,17 +86,22 @@ while health > 0 and day <= 10:
 
     print("\nDay", day, "-", day_of_week)
     print("Population:", population)
-
+    
+    consumption = {
+        "food": 0.8,
+        "water": 0.8,
+        "energy": 0.8
+    }
     # weekend consumption
     if day_of_week == "saturday" or day_of_week == "sunday":
-        food_consumption = 1.2
-        water_consumption = 1.2
-        energy_consumption = 1.2
-    else:
-        food_consumption = 1
-        water_consumption = 1
-        energy_consumption = 1
+        resource = random.choice(list(consumption.keys()))
+        consumption[resource] = 1.2
+        print("Weekend extra consumption on:", resource)
 
+    #  valor the diccionary
+        food_consumption = consumption["food"]
+        water_consumption = consumption["water"]
+        energy_consumption = consumption["energy"]
     # event probability
     event_probability = random.uniform(prob_min, prob_max)
 
