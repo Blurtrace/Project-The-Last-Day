@@ -1,274 +1,297 @@
 import random
 
 print("\n🌍====================================🌍")
-print("        🏕️  JUEGO DE SUPERVIVENCIA  🏕️")
+print("        🏕️  SURVIVAL COLONY GAME  🏕️")
 print("🌍====================================🌍")
 
-nivel = input("\nSelecciona dificultad (facil / medio / dificil): ").lower()
+difficulty = input("\nChoose difficulty (easy, medium, hard): ")
 
-# POBLACIÓN RANDOM
-personas = random.randint(2,6)
+# ---------------- POPULATION RANDOM ----------------
+population = random.randint(2,6)
 
-# CONFIGURACIÓN SEGÚN NIVEL
-if nivel == "facil":
-    comida = 100
-    agua = 100
-    energia = 100
-    daño_recurso = 10
-    vida = 100
-    vida_max = 100
-    prob_min = 5
-    prob_max = 10
+# ---------------- DIFFICULTY SETTINGS ----------------
+if difficulty == "easy":
+    food = 100
+    water = 100
+    energy = 100
+    health = 100
+    health_max = 100
+    damage = 10
 
-elif nivel == "medio":
-    comida = 50
-    agua = 50
-    energia = 50
-    daño_recurso = 5
-    vida = 50
-    vida_max = 50
-    prob_min = 15
-    prob_max = 30
+    prob_min = 0.05
+    prob_max = 0.10
 
-elif nivel == "dificil":
-    comida = 20
-    agua = 20
-    energia = 20
-    daño_recurso = 3
-    vida = 20
-    vida_max = 20
-    prob_min = 30
-    prob_max = 40
+elif difficulty == "medium":
+    food = 50
+    water = 50
+    energy = 50
+    health = 50
+    health_max = 50
+    damage = 5
 
-dias = 10
+    prob_min = 0.15
+    prob_max = 0.30
 
+elif difficulty == "hard":
+    food = 20
+    water = 20
+    energy = 20
+    health = 20
+    health_max = 20
+    damage = 3
 
-# BARRAS VISUALES
-def barra(valor, maximo):
+    prob_min = 0.30
+    prob_max = 0.40
 
-    if valor < 0:
-        valor = 0
+else:
+    print("Invalid difficulty")
+    exit()
 
-    tamaño = 10
-    llenos = int((valor / maximo) * tamaño)
-    vacios = tamaño - llenos
-
-    return "█" * llenos + "░" * vacios
+days_total = 10
 
 
-# INTERFAZ
-def mostrar_estado(dia):
+# ---------------- WEEK SYSTEM ----------------
+days = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"]
+
+week_start = random.randint(0,6)
+
+
+# ---------------- VISUAL BARS ----------------
+def bar(value, maximum):
+
+    if value < 0:
+        value = 0
+
+    size = 10
+    filled = int((value / maximum) * size)
+    empty = size - filled
+
+    return "█" * filled + "░" * empty
+
+
+# ---------------- INTERFACE ----------------
+def show_status(day, weekday):
 
     print("\n📅====================================📅")
-    print(f"              DÍA {dia}")
+    print(f"        DAY {day}  |  {weekday}")
     print("📅====================================📅")
 
-    print(f"👥 Sobrevivientes: {personas}")
+    print(f"👥 Population: {population}")
 
-    print(f"🍖 Comida   [{barra(comida,100)}] {comida}")
-    print(f"💧 Agua     [{barra(agua,100)}] {agua}")
-    print(f"⚡ Energía  [{barra(energia,100)}] {energia}")
-    print(f"❤️ Salud    [{barra(vida,vida_max)}] {vida}")
-
-
-# CONSUMO DIARIO
-def consumo_diario():
-    global comida, agua, energia
-
-    comida -= personas
-    agua -= personas
-    energia -= personas
-
-    print("\n🍽️ Consumo diario")
-    print(f"➖ {personas} comida")
-    print(f"➖ {personas} agua")
-    print(f"➖ {personas} energía")
+    print(f"🍖 Food    [{bar(food,100)}] {food}")
+    print(f"💧 Water   [{bar(water,100)}] {water}")
+    print(f"⚡ Energy  [{bar(energy,100)}] {energy}")
+    print(f"❤️ Health  [{bar(health,health_max)}] {health}")
 
 
-# EVENTOS RANDOM
-def evento_random():
-    global comida, agua, energia, vida
+# ---------------- EVENTS ----------------
+def random_event():
 
-    print("\n🎲 EVENTO DEL DÍA")
+    global food, water, energy, health
 
-    probabilidad = random.randint(1,100)
-    prob_evento = random.randint(prob_min, prob_max)
+    print("\n🎲 EVENT CHECK")
 
-    if probabilidad > prob_evento:
-        print("🌙 Día tranquilo... no ocurrió ningún evento.")
+    event_probability = random.uniform(prob_min, prob_max)
+
+    if random.random() > event_probability:
+        print("🌙 Quiet day... nothing happened.")
         return
 
+    if difficulty == "easy":
 
-    if nivel == "facil":
-
-        evento = random.choice([
-            "comida","energia","agua","enfermedad","equipo","frio"
+        event = random.choice([
+            "Small Supply Loss",
+            "Minor Generator Glitch",
+            "Short Water Leak",
+            "Mild Illness",
+            "Equipment Damage",
+            "Cold Night"
         ])
 
-        if evento == "comida":
-            perdida = random.randint(2,4)
-            comida -= perdida
-            print(f"📦 Small Supply Loss → -{perdida} comida")
+        print("⚠️ Event:", event)
 
-        elif evento == "energia":
-            perdida = random.randint(2,3)
-            energia -= perdida
-            print(f"⚡ Minor Generator Glitch → -{perdida} energía")
+        if event == "Small Supply Loss":
+            loss = random.randint(2,4)
+            food -= loss
+            print(f"📦 Lost {loss} food")
 
-        elif evento == "agua":
-            perdida = random.randint(2,4)
-            agua -= perdida
-            print(f"💧 Short Water Leak → -{perdida} agua")
+        elif event == "Minor Generator Glitch":
+            loss = random.randint(2,3)
+            energy -= loss
+            print(f"⚡ Lost {loss} energy")
 
-        elif evento == "enfermedad":
-            perdida = random.randint(1,2)
-            vida -= perdida
-            print(f"🤒 Mild Illness → -{perdida} salud")
+        elif event == "Short Water Leak":
+            loss = random.randint(2,4)
+            water -= loss
+            print(f"💧 Lost {loss} water")
 
-        elif evento == "equipo":
-            perdida = random.randint(2,4)
-            energia -= perdida
-            print(f"🔧 Equipment Damage → -{perdida} energía")
+        elif event == "Mild Illness":
+            loss = random.randint(1,2)
+            health -= loss
+            print(f"🤒 Survivor lost {loss} health")
 
-        elif evento == "frio":
-            vida -= 1
-            print("🥶 Cold Night → Todos pierden 1 salud")
+        elif event == "Equipment Damage":
+            loss = random.randint(2,4)
+            energy -= loss
+            print(f"🔧 Lost {loss} energy")
+
+        elif event == "Cold Night":
+            health -= 1
+            print("🥶 Everyone lost 1 health")
 
 
-    elif nivel == "medio":
+    elif difficulty == "medium":
 
-        evento = random.choice([
-            "saqueadores","radiacion","agua","generador",
-            "pelea","comida","medico"
+        event = random.choice([
+            "Raiders Steal Supplies",
+            "Radiation Exposure",
+            "Water System Failure",
+            "Generator Breakdown",
+            "Internal Fight",
+            "Food Spoilage",
+            "Medical Emergency"
         ])
 
-        if evento == "saqueadores":
-            comida -= random.randint(4,6)
-            energia -= random.randint(2,4)
-            print("⚔️ Raiders Steal Supplies")
+        print("⚠️ Event:", event)
 
-        elif evento == "radiacion":
-            perdida = random.randint(1,3)
-            vida -= perdida
-            print(f"☢️ Radiation Exposure → -{perdida} salud")
+        if event == "Raiders Steal Supplies":
+            food -= random.randint(4,6)
+            energy -= random.randint(2,4)
 
-        elif evento == "agua":
-            perdida = random.randint(4,6)
-            agua -= perdida
-            print(f"💧 Water System Failure → -{perdida} agua")
+        elif event == "Radiation Exposure":
+            health -= random.randint(1,3)
 
-        elif evento == "generador":
-            perdida = random.randint(4,6)
-            energia -= perdida
-            print(f"⚡ Generator Breakdown → -{perdida} energía")
+        elif event == "Water System Failure":
+            water -= random.randint(4,6)
 
-        elif evento == "pelea":
-            perdida = random.randint(2,4)
-            vida -= perdida
-            print(f"🥊 Internal Fight → -{perdida} salud")
+        elif event == "Generator Breakdown":
+            energy -= random.randint(4,6)
 
-        elif evento == "comida":
-            perdida = random.randint(4,6)
-            comida -= perdida
-            print(f"🍖 Food Spoilage → -{perdida} comida")
+        elif event == "Internal Fight":
+            health -= random.randint(2,4)
 
-        elif evento == "medico":
-            perdida = random.randint(3,5)
-            vida -= perdida
-            print(f"🚑 Medical Emergency → -{perdida} salud")
+        elif event == "Food Spoilage":
+            food -= random.randint(4,6)
+
+        elif event == "Medical Emergency":
+            health -= random.randint(3,5)
 
 
-    elif nivel == "dificil":
+    elif difficulty == "hard":
 
-        evento = random.choice([
-            "invasion","radiacion","generador","epidemia",
-            "agua","derrumbe","gas"
+        event = random.choice([
+            "Armed Invasion",
+            "Severe Radiation Storm",
+            "Total Generator Collapse",
+            "Deadly Epidemic",
+            "Mass Water Contamination",
+            "Structural Collapse",
+            "Toxic Gas Leak"
         ])
 
-        if evento == "invasion":
-            comida -= random.randint(5,8)
-            energia -= random.randint(4,6)
-            print("💀 Armed Invasion")
+        print("⚠️ Event:", event)
 
-        elif evento == "radiacion":
-            energia -= random.randint(3,5)
-            vida -= random.randint(2,4)
-            print("☢️ Severe Radiation Storm")
+        if event == "Armed Invasion":
+            food -= random.randint(5,8)
+            energy -= random.randint(4,6)
 
-        elif evento == "generador":
-            perdida = random.randint(6,9)
-            energia -= perdida
-            print(f"⚡ Total Generator Collapse → -{perdida} energía")
+        elif event == "Severe Radiation Storm":
+            energy -= random.randint(3,5)
+            health -= random.randint(2,4)
 
-        elif evento == "epidemia":
-            perdida = random.randint(3,5)
-            vida -= perdida
-            print(f"🦠 Deadly Epidemic → -{perdida} salud")
+        elif event == "Total Generator Collapse":
+            energy -= random.randint(6,9)
 
-        elif evento == "agua":
-            perdida = random.randint(5,8)
-            agua -= perdida
-            print(f"💧 Mass Water Contamination → -{perdida} agua")
+        elif event == "Deadly Epidemic":
+            health -= random.randint(3,5)
 
-        elif evento == "derrumbe":
-            energia -= random.randint(4,7)
-            vida -= random.randint(3,5)
-            print("🏚️ Structural Collapse")
+        elif event == "Mass Water Contamination":
+            water -= random.randint(5,8)
 
-        elif evento == "gas":
-            perdida = random.randint(2,4)
-            vida -= perdida
-            print(f"☣️ Toxic Gas Leak → -{perdida} salud")
+        elif event == "Structural Collapse":
+            energy -= random.randint(4,7)
+            health -= random.randint(3,5)
+
+        elif event == "Toxic Gas Leak":
+            health -= random.randint(2,4)
 
 
-# VERIFICAR RECURSOS
-def verificar_recursos():
-    global vida
+# ---------------- RESOURCE CHECK ----------------
+def resource_check():
 
-    daño = 0
+    global health, water
 
-    if comida <= 0:
-        daño += daño_recurso
-        print("🚨 SIN COMIDA")
+    damage_total = 0
 
-    agua_disponible = agua
+    if food <= 0:
+        damage_total += damage
+        print("🚨 NO FOOD")
 
-    if energia <= 0:
-        agua_disponible = 0
-        print("⚠️ Sin energía la bomba de agua no funciona")
+    water_available = water
 
-    if agua_disponible <= 0:
-        daño += daño_recurso
-        print("🚨 SIN AGUA")
+    if energy <= 0:
+        water_available = 0
+        print("⚠️ No energy → water pumps stopped")
 
-    if energia <= 0:
-        daño += daño_recurso
-        print("🚨 SIN ENERGÍA")
+    if water_available <= 0:
+        damage_total += damage
+        print("🚨 NO WATER")
 
-    if daño > 0:
-        vida -= daño
-        print(f"💔 El grupo pierde {daño} salud")
+    if energy <= 0:
+        damage_total += damage
+        print("🚨 NO ENERGY")
+
+    if damage_total > 0:
+        health -= damage_total
+        print(f"💔 Colony lost {damage_total} health")
 
 
-# LOOP PRINCIPAL
-for dia in range(1, dias+1):
+# ---------------- GAME LOOP ----------------
+day = 1
 
-    mostrar_estado(dia)
+while health > 0 and day <= days_total:
 
-    consumo_diario()
+    weekday = days[(week_start + day - 1) % 7]
 
-    evento_random()
+    show_status(day, weekday)
 
-    verificar_recursos()
+    # WEEKEND CONSUMPTION
+    if weekday == "Saturday" or weekday == "Sunday":
+        multiplier = 1.2
+        print("\n📊 Weekend consumption increased")
+    else:
+        multiplier = 1
 
-    if vida <= 0:
-        print("\n☠️====================================☠️")
-        print("             GAME OVER")
-        print("      El grupo no sobrevivió")
-        print("☠️====================================☠️")
-        break
+    food_cost = population * multiplier
+    water_cost = population * multiplier
+    energy_cost = population * multiplier
 
-    if dia == dias:
-        print("\n🏆====================================🏆")
-        print("        ¡SOBREVIVIERON 10 DÍAS!")
-        print("🏆====================================🏆")
+    print("\n🍽️ Daily consumption")
+
+    food -= food_cost
+    water -= water_cost
+    energy -= energy_cost
+
+    print(f"➖ Food -{food_cost}")
+    print(f"➖ Water -{water_cost}")
+    print(f"➖ Energy -{energy_cost}")
+
+    random_event()
+
+    resource_check()
+
+    day += 1
+
+
+# ---------------- RESULT ----------------
+if health <= 0:
+
+    print("\n☠️====================================☠️")
+    print("            COLONY COLLAPSED")
+    print("☠️====================================☠️")
+
+else:
+
+    print("\n🏆====================================🏆")
+    print("       THE COLONY SURVIVED 10 DAYS")
+    print("🏆====================================🏆")
