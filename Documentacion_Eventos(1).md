@@ -186,6 +186,4 @@ Typical effects:
 
 In this difficulty, survival becomes extremely challenging.
 
----
 
-# Safety System
