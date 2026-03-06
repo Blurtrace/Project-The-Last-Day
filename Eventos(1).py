@@ -3,8 +3,10 @@ import random
 food = 100
 water = 100
 energy = 100
-life = 100
+
 people = random.randint(2, 6)
+
+life = people * 10
 
 
 def reduce_resource(resource, amount):
@@ -58,8 +60,8 @@ def easy_random_event():
 
     elif event == 6:
 
-        resource = random.randint(1,3)
-        loss = random.randint(6,12)
+        resource = random.randint(1, 3)
+        loss = random.randint(6, 12)
 
         if resource == 1:
             food = reduce_resource(food, loss)
@@ -91,11 +93,10 @@ def normal_random_event():
 
     if event == 10:
 
-        loss = random.randint(10,18)
+        loss = random.randint(10, 18)
 
-        if random.randint(1,2) == 1:
+        if random.randint(1, 2) == 1:
             food = reduce_resource(food, loss)
-
         else:
             energy = reduce_resource(energy, loss)
 
@@ -142,11 +143,10 @@ def hard_random_event():
 
     if event == 19:
 
-        loss = random.randint(12,20)
+        loss = random.randint(12, 20)
 
-        if random.randint(1,2) == 1:
+        if random.randint(1, 2) == 1:
             food = reduce_resource(food, loss)
-
         else:
             energy = reduce_resource(energy, loss)
 
@@ -169,11 +169,10 @@ def hard_random_event():
 
     elif event == 24:
 
-        if random.randint(1,2) == 1:
-            energy = reduce_resource(energy, random.randint(12,20))
-
+        if random.randint(1, 2) == 1:
+            energy = reduce_resource(energy, random.randint(12, 20))
         else:
-            reduce_life(random.randint(6,12))
+            reduce_life(random.randint(6, 12))
 
         death_chance(0.55)
 
@@ -187,11 +186,10 @@ def hard_random_event():
 
     elif event == 27:
 
-        loss = random.randint(12,20)
+        loss = random.randint(12, 20)
 
-        if random.randint(1,2) == 1:
+        if random.randint(1, 2) == 1:
             food = reduce_resource(food, loss)
-
         else:
             energy = reduce_resource(energy, loss)
 
