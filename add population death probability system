@@ -1,0 +1,8 @@
+Implemented a probability-based system for population loss.
+
+The new death_chance() function determines whether a member of the
+group dies during certain random events.
+
+This mechanic increases gameplay tension and introduces
+a strategic survival element where resource management
+directly affects the group's survival chances.
