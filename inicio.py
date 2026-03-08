@@ -3,6 +3,7 @@
 """
 Game Initialization Module
 
+Autor: Luisa de la Rosa and Hillary Yepes Glen
 This script:
 1. Asks the player to enter a username.
 2. Ensures the username is not empty using a while loop.
@@ -10,86 +11,96 @@ This script:
 4. Initializes game resources based on the selected difficulty.
 """
 
-# Ask the user to enter a username and capitalize it
-user_name = input("Welcome! Please enter your UserName: ").capitalize()
+
+
+import random
+
+valid_name= False
 
 # Keep asking until a valid username is entered
-while user_name == "":
-    user_name = input("You did not enter a UserName, please enter your UserName: ").capitalize()
+while not valid_name:
+
+    # Ask the user to enter a username and capitalize it
+    user_name = input("Welcome! Please enter your UserName: ").capitalize().strip()
+
+    if len(user_name) <3 or len(user_name) > 15:
+        print("Username must have 3 to 15 characters.")
+    
+    elif not user_name.replace(" ", "").isalnum():
+        print("Username can only contain letters or numbers.")
+    
+    else:
+        print("Valid username.")
+        valid_name = True
+   
+
+days = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"]
+start_day = random.choice(days)
+
+
+
+# Boolean flag to control difficulty selection loop
+select = False
 
 # Loop until the user selects a valid difficulty option
-def select_dificulty():
-    select = False # Boolean flag to control difficulty selection loop
-    while select != True:
+while not select:
 
-        # Ask the player to choose a difficulty level
-        difficult_level = input(
-            f"Hi, {user_name}, select the difficulty level:\n"
-            "1. Easy\n"
-            "2. Medium\n"
-            "3. Difficult\n"
-        )
+    # Ask the player to choose a difficulty level
+    difficult_level = input(
+        f"Hi, {user_name}, select the difficulty level:\n"
+        "1. Easy\n"
+        "2. Medium\n"
+        "3. Difficult\n"
+    )
 
-        # Easy mode configuration
-        if difficult_level == "1":
-            health = food = water = energy = 100
-            population = 10
-            bad_porcentage = 20
+    # Easy mode configuration
+    if difficult_level == "1":
+        health = food = water = energy = 100
+        population = random.randint(2,6)
+        mode = "Easy"
 
-            print(
-                f"You selected Easy mode\n"
-                f"Available resources:\n"
-                f"Health: {health}\n"
-                f"Food: {food}\n"
-                f"Water: {water}\n"
-                f"Energy: {energy}\n"
-                f"Population: {population}\n"
-                f"Bad Porcentage: {bad_porcentage}\n"
-            )
+       
+        select = True
 
-            return health, food, water, energy, population, bad_porcentage
+    # Medium mode configuration
+    elif difficult_level == "2":
+        health = food = water = energy = 50
+        population = random.randint(2,6)
+        mode = "Medium"
+        
+        select = True
 
-        # Medium mode configuration
-        elif difficult_level == "2":
-            health = food = water = energy = 50
-            population = 5
-            bad_porcentage = 40
+    # Difficult mode configuration
+    elif difficult_level == "3":
+        health = food = water = energy = 20
+        population = random.randint(2,6)
+        mode = "Difficult"
 
-            print(
-                f"You selected Medium mode\n"
-                f"Available resources:\n"
-                f"Health: {health}\n"
-                f"Food: {food}\n"
-                f"Water: {water}\n"
-                f"Energy: {energy}\n"
-                f"Population: {population}\n"
-                f"Bad Porcentage: {bad_porcentage}\n"
-            )
+        select = True
 
-            select = True
+    # Invalid option handling
+    else:
+        print("Please, select an available option.")
+        continue
 
-        # Difficult mode configuration
-        elif difficult_level == "3":
-            health = food = water = energy = 20
-            population = 3
-            bad_porcentage = 60
+# Weekend penalty
+    # if start_day in ["Saturday", "Sunday"]:
+    #     health -= 1.2
+    #     food -= 1.2
+    #     water -= 1.2
+    #     energy -= 1.2
 
-            print(
-                f"You selected Difficult mode\n"
-                f"Available resources:\n"
-                f"Health: {health}\n"
-                f"Food: {food}\n"
-                f"Water: {water}\n"
-                f"Energy: {energy}\n"
-                f"Population: {population}\n"
-                f"Bad Porcentage: {bad_porcentage}\n"
-            )
-
-            return health, food, water, energy, population, bad_porcentage
-
-        # Invalid option handling
-        else:
-            print("Please, select an available option.")
-        return health, food, water, energy, population, bad_porcentage
-    
-health, food, water, energy, population, bad_porcentage = select_dificulty()
+    print(
+        f"----------------------------\n"
+        f"You selected {mode} mode\n"
+        f"----------------------------\n"
+        f"The game starts on: {start_day}\n"
+        f"----------------------------\n"
+        f"Available resources:\n"
+        f"Health: {health}\n"
+        f"Food: {food}\n"
+        f"Water: {water}\n"
+        f"Energy: {energy}\n"
+        f"Population: {population}\n"
+        f"----------------------------\n"
+    )
