@@ -83,12 +83,6 @@ while not select:
         print("Please, select an available option.")
         continue
 
-# Weekend penalty
-    # if start_day in ["Saturday", "Sunday"]:
-    #     health -= 1.2
-    #     food -= 1.2
-    #     water -= 1.2
-    #     energy -= 1.2
 
     print(
         f"----------------------------\n"
