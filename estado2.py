@@ -1,72 +1,94 @@
-import random
+# -------------------------------
+# GENERAL CALCULATIONS
+# -------------------------------
+
+def calculate_remaining_days(current_turn, goal_turns=10):
+    """Calculates how many days are left to finish."""
+    return goal_turns - current_turn
 
 
-def calculate_remaining_days(current_day, goal_days=10):
-    return goal_days - current_day
+def calculate_remaining_damage(damage_per_day, remaining_turns):
+    """Calculates the total damage the player will receive until day 10."""
+    return damage_per_day * remaining_turns
 
 
-def calculate_remaining_damage(daily_damage, days_left):
-    return daily_damage * days_left
+# -------------------------------
+# PREDICTIONS
+# -------------------------------
+
+def predict_death_by_thirst(days_without_water, remaining_turns):
+    """Predicts if the player will die due to lack of water."""
+    return (days_without_water + remaining_turns) >= 3
 
 
-def check_health_viability(current_health, future_total_damage):
-    return current_health > future_total_damage
+def predict_death_by_hunger(player_health, damage_per_day, remaining_turns):
+    """Predicts if health will reach 0 before day 10."""
+    total_expected_damage = damage_per_day * remaining_turns
+    return player_health <= total_expected_damage
 
 
-def issue_defeat_alert(health, remaining_days):
-    print("\n--- FORECAST ALERT ---")
-    print(
-        f"With {health} health it is not possible to survive {remaining_days} more days.")
-    print("GAME OVER: Inevitable exhaustion before day 10.")
+# -------------------------------
+# HEALTH VERIFICATION
+# -------------------------------
+
+def check_health_viability(player_health, future_total_damage):
+    """Checks if health is enough to survive."""
+    return player_health > future_total_damage
 
 
-def is_dead(health):
-    return health <= 0
+def emit_defeat_alert(player_health, remaining_turns):
+    """Displays a future defeat alert."""
+    print("\n--- PREDICTION ALERT ---")
+    print(f"With {player_health} health it is not possible to survive {remaining_turns} more days.")
+    print("GAME OVER: Exhaustion will be inevitable before day 10.")
 
 
-def end_game(cause):
+# -------------------------------
+# DEATH CONDITION
+# -------------------------------
+
+def is_dead(player_health):
+    """Evaluates if health has reached 0."""
+    return player_health <= 0
+
+
+def end_game(death_cause):
+    """Displays the end of the game."""
     print("\n-------------------------------------------")
     print("GAME OVER: The game has ended.")
-    print(f"Cause of death: {cause}.")
+    print(f"Cause of death: {death_cause}")
     print("-------------------------------------------")
 
 
-def check_vital_status(current_health):
-    if is_dead(current_health):
+def check_vital_status(player_health):
+    """Coordinates if the game should end."""
+    if is_dead(player_health):
         end_game("Health depleted (Accumulated damage)")
         return True
-    return False
 
 
-def run_defeat_check(health, water, food, days_without_water, current_day):
-    remaining_days = calculate_remaining_days(current_day)
+# -------------------------------
+# MAIN VERIFICATION SYSTEM
+# -------------------------------
 
-    # Check death by dehydration
-    if water <= 0:
-        days_without_water += 1
-        if days_without_water >= 3:
-            end_game("Dehydration (3 days without water)")
-            return True, days_without_water
-    else:
-        days_without_water = 0
+def run_defeat_verification(player_health, water_supply, food_supply, days_without_water, current_turn, damage_per_day):
+    """Coordinates all system predictions."""
 
-    # Check damage due to hunger
-    daily_damage = 10 if food <= 0 else 0
-    future_total_damage = calculate_remaining_damage(
-        daily_damage, remaining_days)
+    remaining_turns = calculate_remaining_days(current_turn)
 
-    if not check_health_viability(health, future_total_damage):
-        issue_defeat_alert(health, remaining_days)
-        return True, days_without_water
+    # Prediction due to thirst
+    if predict_death_by_thirst(days_without_water, remaining_turns):
+        end_game("Death by dehydration")
+        return True
 
-    return False, days_without_water
+    # Prediction due to hunger
+    if predict_death_by_hunger(player_health, damage_per_day, remaining_turns):
+        end_game("Death by starvation")
+        return True
 
+    # Future damage evaluation
+    future_damage = calculate_remaining_damage(damage_per_day, remaining_turns)
 
-# -------------------------
-# Test Run
-# -------------------------
-finished, days_without_water = run_defeat_check
-(health, water, food, days_without_water, current_day)
-
-if not finished:
-    print("The player can continue.")
+    if not check_health_viability(player_health, future_damage):
+        emit_defeat_alert(player_health, remaining_turns)
+        return True
