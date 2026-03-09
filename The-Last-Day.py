@@ -382,6 +382,10 @@ def resource_check():
         health -= damage_total
         print(f"💔 Colony lost {damage_total} health")
 
+    if health <= health_max * 0.25 and population > 1:            
+        population -= 1
+        print("☠️ A survivor died due to critical conditions")
+
 
 # --------------------- GAME LOOP -----------------------
 day = 1
