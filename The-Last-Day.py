@@ -382,7 +382,7 @@ def resource_check():
         health -= damage_total
         print(f"💔 Colony lost {damage_total} health")
 
-    if health <= health_max * 0.50 and population > 1:            
+    if health <= health_max * 0.50 and population > 0:            
         population -= 1
         print("☠️ A survivor died due to critical conditions")
 
@@ -448,4 +448,5 @@ else:
     print("\n🏆====================================🏆")
     print("       THE COLONY SURVIVED 10 DAYS")
     print("🏆====================================🏆")
+
 
